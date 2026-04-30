@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 
 # This line actually reads the .env file
 # It looks for .env in the parent folder (one level up from src/)
-load_dotenv("../.env")
+import streamlit as st
 
 
 def get_news(ticker, company_name):
@@ -23,7 +23,10 @@ def get_news(ticker, company_name):
 
     # os.getenv() reads a value from the .env file
     # This is how we safely use secret keys without exposing them
-    api_key = os.getenv("NEWS_API_KEY")
+    try:
+        api_key = st.secrets("NEWS_API_KEY")
+    except:
+        api_key = os.getenv("NEWS_API_KEY")
 
     # This is the URL we are calling - like typing it in a browser
     # It's called an "API endpoint" - a URL that returns data instead of a webpage
